@@ -18,5 +18,5 @@ This game is to be played by two players on the same desktop device. These two p
 Both players begin with maximum health. For each hit on a player, their corresponding health decreases. A player is able to hit the other player by remaining on the ground (ground attack) or hit by jumping (air attack: results in more damage). There is a 30 second time limit. During that time limit either player can win by killing the other. If neither player is able to defeat the other and the time runs out, then winner is decided by the player who has more health. If both players have same health when timer runs out, the fight is declared as a "draw".
 
 ## Assets
-- background.png is CC0 taken from https://chriscourses.com
+- autumn-landscape-background.jpg is CC0 taken from https://www.freepik.com/free-vector/autumn-landscape-background_1165702.htm#query=game%20background&position=2&from_view=keyword&track=ais
 - dino_transparent.png was designed by myself
