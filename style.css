@@ -1,0 +1,92 @@
+/*
+    * Course: SENG 513
+    * Date: Oct 23, 2023
+    * Assignment 2
+    * Name: Anish Pokhrel
+    * UCID: 30115576
+*/
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding-top: 174px;
+    background-image: url("/assets/background.png");
+
+}
+
+.healthBar {
+    position: absolute;
+    display: flex;
+    width: 50%;
+    align-items: center;
+    padding: 0px;
+}
+
+.healthLayout {
+    position: relative;
+    height: 30px;
+    width: 100%;
+}
+
+.totalHealthBar {
+    position: absolute;
+    background-color: #5cf664;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+}
+
+#timer {
+    background-color: rgb(255, 217, 0);
+    font-size: 35px;
+    height: 50px;
+    width: 75px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#result {
+    position: absolute;
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    color: wheat;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.game {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#player1 {
+    position: relative;
+    left: 0px;
+    bottom: 0px;
+
+}
+
+#player2 {
+    position: relative;
+    transform: scaleX(-1);
+    right: 100px;
+    bottom: 0px;
+}
+
