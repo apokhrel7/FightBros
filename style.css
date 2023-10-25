@@ -17,8 +17,9 @@ body {
     justify-content: center;
     width: 100%;
     height: auto;
-    padding-top: 174px;
-    background-image: url("/assets/background.png");
+    background-repeat: no-repeat;
+    padding-top: 225px;
+    background-image: url("/assets/autumn-landscape-background.jpg");
 
 }
 
@@ -79,14 +80,14 @@ body {
 #player1 {
     position: relative;
     left: 0px;
-    bottom: 0px;
-
+    top: 70px;
 }
 
 #player2 {
     position: relative;
     transform: scaleX(-1);
     right: 100px;
-    bottom: 0px;
+    top: 70px;
+
 }
 
