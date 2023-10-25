@@ -1,0 +1,71 @@
+<!-- Course: SENG 513 -->
+<!-- Date: Oct 23, 2023 -->
+<!-- Assignment 2 -->
+<!-- Name: Anish Pokhrel -->
+<!-- UCID: 30115576 -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+    <title>Fight Bros</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- <div id="background-image"></div> -->
+        <!-- <img id="background-image" src ="/assets/img/background.png" alt="background_image"> -->
+
+        <div id="healthBar" class="healthBar">
+            
+
+            <!-- This is to display each player's health bar at the top of screen -->
+            <div class="healthLayout">
+
+                <!-- Display health remaining in green  -->
+                <div class="remainingHealthbar"></div>
+
+                <!-- Display current health (e.g. after being hit in red) -->
+                <div id="playerHealth" class="totalHealthBar"></div>
+            </div>
+            
+            <!-- Timer in game -->
+            <div id="timer"> 12 </div>
+
+            <!-- Display player2 health -->
+            <div class="healthLayout">
+                <div class="remainingHealthbar"></div>
+                <div id="player2Health" class="totalHealthBar"></div>
+            </div>
+        </div>
+
+        <!-- Display result of the game when it ends: tie, player 1 wins,or player 2 wins -->
+        <div id="result"> Display Game Result </div>
+
+        <!-- The game is displayed here, using canvas -->
+        <div class="game">
+            
+            <div id="player1" class="player-image">
+                <img src="/assets/dino_transparent.png" alt="player1">
+            </div>
+
+            <div id="player2" class="player-image">
+                <img src="/assets/dino_transparent.png" alt="player2">
+            </div>
+        </div>
+
+        
+
+    </div>
+
+    <!-- TODO: add instructions div to show how to play game using keyboards -->
+
+    <!-- Add link to script file here when made-->
+</body>
+
+</html>
