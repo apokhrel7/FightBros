@@ -33,23 +33,9 @@
     // Return: boolean
 
     // movement() {
-           
            // if user is pressing right key, go right
            // if user is pressing left key, go left
            // if user is pressing space bar, jump up 
-    //     let running = false;    // Determinate if player is running or not.
-    //     if (this.health > 0) {
-    //         if (Object.values(this.keys)[0].pressed && (this.lastKey === 'a' || this.lastKey === 'ArrowLeft') && this.position.x >= 0) {
-    //             this.velocity.x = -this.moveFactor; // 'a' is pressed and it's the last pressed key, then move to the left.
-    //             this.switchSprite('run')
-    //             running = true;
-    //         } else if (Object.values(this.keys)[1].pressed && (this.lastKey === 'd' || this.lastKey === 'ArrowRight') && this.position.x <= (canvas.width - this.width)) {
-    //             this.velocity.x = this.moveFactor;  // 'd' is pressed and it's the last pressed key, then move to the right.
-    //             this.switchSprite('run')
-    //             running = true;
-    //         }
-    //     }
-    //     return running;
     // }
 
 //}
