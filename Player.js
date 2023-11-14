@@ -6,10 +6,18 @@
     * UCID: 30115576
 */
 
-
 // This file creates the functionality for the two players
 
+import Sprite from '/Sprite.js';
+
+
+// Set dimensions of canvas (where the game will be) 
+canvas.width = 1024;
+canvas.height = 576;
+
+
 // initialize gravity for the players (required for when they jump and fall)
+gravity = 0.9;
 
 // Create class Player that implements class 'Sprite' from the Sprite.js file.
 // This class will store all attributes of the Player, such as health, velocity, their attack state (attacking or not), etc.
@@ -42,11 +50,20 @@
 
 /******************************************************************************************** */
 
+// Creating player1
+const player1 = new Player({
+    x: 0,
+    y: 0
+})
+
+player1.draw();
 
 
-// Create player1 by using class 'Player'
-// export const player = new Player({})
+const player2 = new Player({
+    x: 0,
+    y: 0
+})
 
-// Create player1 by using class 'Player'
-// export const enemy = new Player({})
+player2.draw();
 
+export default Player;
