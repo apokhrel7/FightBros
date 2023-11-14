@@ -31,10 +31,10 @@ c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate 
 /******************************************************************************************** */
 
 // Function to start the game 
-// function beginGame () {
-    // activate animations
+function beginGame () {
+    //activate animations
     // update player states
-// }
+}
 
 
 // Now invoke the method
@@ -52,9 +52,44 @@ c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate 
 /******************************************************************************************** */
 
 // Function to add animations for players, frame by frame 
-// function animate() {
-//     update(player1);   // update player state
-//     update(player2);   // update player2 state
+function animate() {
+    window.requestAnimationFrame(animate);
+    c.fillStyle = "yellow";      // sets background as yellow
+    c.fillRect(0, 0, canvas.width, canvas.height);   // make sure we are clearing canvas for each frame we loop 
+
+    player1.update();
+    player2.update();
+
+}
+
+animate();
+
+
+// decides what happens when a key is pressed
+window.addEventListener('keydown', (event) => {
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 1    // move player 1 pixel right when key d is pressed
+            break;
+        case 'a':
+            player.velocity.x = -1  // move player 1 pixel left when key 'a' is pressed
+            break;
+    }
+})
+
+// decides what happens when key is lifted (not pressed anymore)
+window.addEventListener('keyup', (event) => {
+
+    // decide what happens when a key is pressed
+    switch (event.key) {
+        case 'd':
+            player.velocity.x = 0    // stop player from moving when key 'd' (right) is not pressed
+            break;
+        case 'a':
+            player.velocity.x = 0  // stop player from moving when key 'a' (left) is not pressed
+            break;
+    }
+})
 
 
 //     Check if either player is attacking the other:
