@@ -8,9 +8,17 @@
 
 // This the JavaScript "driver" function that runs the game  
 
-// import { player, enemy } from '/Player.js'
-// import { background, shop } from '/Sprite.js';
-// import { loadKeyDownEvents, loadkeyUpEvents } from '/Keys.js'
+const canvas = document.querySelector("canvas");    //get the canvas from html
+const c = canvas.getContext("2d");                  // make a 2d canvas
+
+// Set dimensions of canvas (where the game will be) 
+canvas.width = 1024;
+canvas.height = 576;
+
+c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate where the game is 
+                                                    // and what the background is
+
+
 
 /*  Track the following attributes:
         * Game time
