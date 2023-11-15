@@ -16,49 +16,32 @@
 </head>
 
 <body>
-
     <div class="container">
-        <!-- <div id="background-image"></div> -->
-        <!-- <img id="background-image" src ="/assets/img/background.png" alt="background_image"> -->
+        <div class="healthbar-container">
 
-        <div id="healthBar" class="healthBar">
-            
-
-            <!-- This is to display each player's health bar at the top of screen -->
-            <div class="healthLayout">
-
-                <!-- Display health remaining in green  -->
-                <div class="remainingHealthbar"></div>
-
-                <!-- Display current health (e.g. after being hit in red) -->
-                <div id="playerHealth" class="totalHealthBar"></div>
+            <!-- Player1 healthbar -->
+            <div class="outer-healthbar">
+                <div class="player-health"></div>
+                <div id="player1-healthbar" class="healthbar"></div>
             </div>
             
-            <!-- Timer in game -->
-            <div id="timer"> 12 </div>
+            <!-- Timer box-->
+            <div id="timer">10</div>
 
-            <!-- Display player2 health -->
-            <div class="healthLayout">
-                <div class="remainingHealthbar"></div>
-                <div id="player2Health" class="totalHealthBar"></div>
+            <!-- Player2 healthbar -->
+            <div class="outer-healthbar">
+                <div class="player-health"></div>
+                <div id="player2-healthbar" class="healthbar"></div>
             </div>
         </div>
-
-        <!-- Display result of the game when it ends: tie, player 1 wins,or player 2 wins -->
-        <div id="result"> Display Game Result </div>
-
-        <!-- The game is displayed here, using canvas -->
-        <div class="game">
-            <canvas></canvas>
-        </div>
-        
-
+        <div id="result-message">Tie</div>
+        <canvas></canvas>
     </div>
-
+    
     <!-- TODO: add instructions div to show how to play game using keyboards -->
 
     <!-- Add link to script file here when made-->
-    <script> src="index.js"</script>
+    <script src="index.js"></script>
 </body>
 
 </html>
