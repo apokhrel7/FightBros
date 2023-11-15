@@ -19,7 +19,7 @@ const gravity = 0.5; // gravity for the players (required for when they jump and
 const jumpForce = 22;  // force of each jump (how high players can jump)
 const movementRate = 6; //each player moves 6 pixels per frame
 const damagePoint = 20;  // each time a player gets hit, their health decreases by 20%
-let timer = 5;       // the game length is 30 seconds
+let timer = 30;       // the game length is 30 seconds
 
 
 c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate where the game is 
@@ -151,28 +151,37 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
+function determineWinner({player1, player2, timerID}) {
+    clearTimeout(timerID);  // once winner is determined, timer is stopped
+
+    // if player1-health is same as player2-health, then it's a tie
+    if (player1.health === player2.health) {
+        document.querySelector("#result-message").innerHTML = "TIE";
+        document.querySelector("#result-message").style.display = "flex";
+    }
+    // if player1 health is more than player2
+    else if (player1.health > player2.health) {
+        document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
+        document.querySelector("#result-message").style.display = "flex";
+    }
+    // if player2 health is more than player1
+    else if (player1.health < player2.health) {
+        document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
+        document.querySelector("#result-message").style.display = "flex";
+    }
+}
+
+let timerID;  // allows to cancel timer once winner is found
 function decrementTimer () {
     if (timer > 0) {
-        setTimeout(decrementTimer, 1000);
+        timerID = setTimeout(decrementTimer, 1000);
         timer-=1;   // decrease timer by 1 second
         document.querySelector("#timer").innerHTML = timer;  // update timer in html as it decreases
     }
 
-    // if the timer is 0 (game has ended), display "TIE" message
+    // if the timer is 0 (game has ended)
     else {
-        // if player1-health is same as player2-health, then it's a tie
-        if (player1.health === player2.health) {
-            document.querySelector("#result-message").innerHTML = "TIE";
-            document.querySelector("#result-message").style.display = "flex";
-        }
-        else if (player1.health > player2.health) {
-            document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
-            document.querySelector("#result-message").style.display = "flex";
-        }
-        else if (player1.health < player2.health) {
-            document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
-            document.querySelector("#result-message").style.display = "flex";
-        }
+        determineWinner({player1, player2, timerID});
     }
     
 }
@@ -223,6 +232,13 @@ function displayAnimation() {
         player1.health -= damagePoint;   // decrease player2 health 
         document.querySelector("#player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
     }
+
+
+    // terminate the game if player1 or player2 health is finished
+    if (player1.health <= 0 || player2.health <= 0) {
+        determineWinner({player1, player2, timerID});
+    }
+
 }
 
 displayAnimation();   // call animate function to display canvas
