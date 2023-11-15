@@ -25,76 +25,17 @@ let timer = 30;       // the game length is 30 seconds
 c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate where the game is 
                                                     // and what the background is
 
-class Sprite {
-    constructor({position, velocity, colour = "green", offset}) {
-        this.position = position;
-        this.velocity = velocity;
-        this.width = 50;
-        this.height = 150;
-        this.lastKeyPressed;
-
-        // area that determines where players can attack
-        this.attackBox = {
-            position: {
-                x: this.position.x, 
-                y: this.position.y
-            },
-            offset: offset,   // offset for attack box
-            width: 100,
-            height: 50 
-        }
-        this.colour = colour;
-        this.isAttacking = false;
-        this.health = 100;
-    }
-
-    // Draw the sprites in the canvas (tag in html file).
-    draw() {
-        c.fillStyle = this.colour;  // sprite is green
-        c.fillRect(this.position.x, this.position.y, this.width, this.height); 
-
-        // draw attack border
-        if (this.isAttacking) {
-            c.fillStyle = "red";
-            c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
-        }
-    }
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image_src: "./assets/img/background.png"
+})
 
 
-    // For every frame, update sprites
-    update() {
-        this.draw();   // call draw method again
 
-        // attack box positions
-        this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-        this.attackBox.position.y = this.position.y;
-
-        // Determines how to move players
-        this.position.x += this.velocity.x;   // move in x-direction
-        this.position.y += this.velocity.y;   // move in y-direction
-
-        // Prevents sprite from falling down canvas
-        // If overall position of sprite is greater than or equal to canvas...
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0;
-        }   
-
-        // gravity is ONLY ADDED if sprites (players) haven't reached bottom of canvas
-        else {
-            this.velocity.y += gravity;
-        }
-    }
-
-    attack() {
-        this.isAttacking = true;
-        setTimeout( () => {
-            this.isAttacking = false;
-        }, 100)
-    }
-    
-}
-
-const player1 = new Sprite({
+const player1 = new Fighter({
     position: {
         x: 0,
         y: 0
@@ -110,7 +51,7 @@ const player1 = new Sprite({
 })
 
 
-const player2 = new Sprite({
+const player2 = new Fighter({
     position: {
         x: 400,
         y: 100
@@ -151,8 +92,8 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
-function determineWinner({player1, player2, timerID}) {
-    clearTimeout(timerID);  // once winner is determined, timer is stopped
+function determineWinner({player1, player2, trackTimer}) {
+    clearTimeout(trackTimer);  // once winner is determined, timer is stopped
 
     // if player1-health is same as player2-health, then it's a tie
     if (player1.health === player2.health) {
@@ -171,17 +112,17 @@ function determineWinner({player1, player2, timerID}) {
     }
 }
 
-let timerID;  // allows to cancel timer once winner is found
+let trackTimer;  // allows to cancel timer once winner is found
 function decrementTimer () {
     if (timer > 0) {
-        timerID = setTimeout(decrementTimer, 1000);
+        trackTimer = setTimeout(decrementTimer, 1000);
         timer-=1;   // decrease timer by 1 second
         document.querySelector("#timer").innerHTML = timer;  // update timer in html as it decreases
     }
 
     // if the timer is 0 (game has ended)
     else {
-        determineWinner({player1, player2, timerID});
+        determineWinner({player1, player2, trackTimer});
     }
     
 }
@@ -192,6 +133,8 @@ function displayAnimation() {
     window.requestAnimationFrame(displayAnimation);  // inifinetly loop animate function
     c.fillStyle = "yellow";      // sets background as yellow
     c.fillRect(0, 0, canvas.width, canvas.height);   // make sure we are clearing canvas for each frame we loop 
+
+    background.update();        // puts background image onto canvas
 
     player1.update();
     player2.update();
@@ -236,7 +179,7 @@ function displayAnimation() {
 
     // terminate the game if player1 or player2 health is finished
     if (player1.health <= 0 || player2.health <= 0) {
-        determineWinner({player1, player2, timerID});
+        determineWinner({player1, player2, trackTimer});
     }
 
 }
