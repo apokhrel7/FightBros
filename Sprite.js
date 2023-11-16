@@ -12,6 +12,8 @@ import { c } from "/index.js";
 // ****** This file is responsible for creating the general sprites used in animation ********* 
 
 
+// Help with animations are credited to https://chriscourses.com/
+
 // Class 'Sprite' used to initialize sprite attributes (dimensions, scale, position)
 // This class is used to draw sprites in the canvas and update each sprite
 
@@ -26,7 +28,6 @@ class Sprite {
         this.framesCurrent = 0;
         this.framesMax = framesMax;
 
-        // below is optional, maybe deleted later??
         this.framesElapsed = 0;
         this.framesHold = 5;
         this.offset = offset;

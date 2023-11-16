@@ -13,6 +13,7 @@ import { canvas } from '/index.js';
 
 
 // ****** This file creates Players from the Sprite class in Sprite.js ********
+// Help with animations are credited to https://chriscourses.com/
 
 const damagePoint = 10;  // each time a player gets hit, their health decreases by 10%
 const gravity = 0.8; // gravity for the players (required for when they jump and fall)
