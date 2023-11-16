@@ -18,7 +18,6 @@ canvas.height = 576;
 const gravity = 0.5; // gravity for the players (required for when they jump and fall)
 const jumpForce = 22;  // force of each jump (how high players can jump)
 const movementRate = 6; //each player moves 6 pixels per frame
-const damagePoint = 20;  // each time a player gets hit, their health decreases by 20%
 let timer = 30;       // the game length is 30 seconds
 
 
@@ -33,8 +32,6 @@ const background = new Sprite({
     image_src: "./assets/img/background.png"
 })
 
-
-
 const player1 = new Fighter({
     position: {
         x: 0,
@@ -47,13 +44,62 @@ const player1 = new Fighter({
     offset: {
         x: 0,
         y: 0
+    },
+    image_src: "./assets/img/Martial Hero 3/Sprite/Idle.png",
+    hit_audio_src: "./assets/audio/486943__matrixxx__human-aah.wav",    
+
+    framesMax: 8,
+    scale: 2.5,
+    offset: {
+        x: 50,
+        y: 56
+    },
+
+    sprites: {
+        idle: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Idle.png',
+            framesMax: 10
+        },
+        run: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Run.png',
+            framesMax: 8
+        },
+        jump: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Going Up.png',
+            framesMax: 3
+        },
+        fall: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Going Down.png',
+            framesMax: 3
+        },
+        attack1: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Attack2.png',
+            framesMax: 6
+        },
+        takeHit: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Take Hit.png',
+            framesMax: 3
+        },
+        death: {
+            image_src: './assets/img/Martial Hero 3/Sprite/Death.png',
+            framesMax: 11
+        }
+    },
+
+    attackBox: {
+        offset: {
+            x: 100,
+            y: 50
+        },
+    width: 160,
+    height: 50
     }
 })
 
 
 const player2 = new Fighter({
     position: {
-        x: 400,
+        x: 900,
         y: 100
     },
     velocity: {
@@ -64,7 +110,54 @@ const player2 = new Fighter({
     offset: {
         x: -50,
         y: 0
-    }
+    },
+
+    image_src: './assets/img/kenji/Idle.png',
+    hit_audio_src: "./assets/audio/553285__deleted_user_12367688__hurt4.ogg",
+    framesMax: 4,
+    scale: 2.5,
+    offset: {
+    x: 215,
+    y: 167
+    },
+    sprites: {
+        idle: {
+            image_src: './assets/img/kenji/Idle.png',
+            framesMax: 4
+        },
+        run: {
+            image_src: './assets/img/kenji/Run.png',
+            framesMax: 8
+        },
+        jump: {
+            image_src: './assets/img/kenji/Jump.png',
+            framesMax: 2
+        },
+        fall: {
+            image_src: './assets/img/kenji/Fall.png',
+            framesMax: 2
+        },
+        attack1: {
+            image_src: './assets/img/kenji/Attack1.png',
+            framesMax: 4
+        },
+        takeHit: {
+            image_src: './assets/img/kenji/Take hit.png',
+            framesMax: 3
+        },
+        death: {
+            image_src: './assets/img/kenji/Death.png',
+            framesMax: 7
+        }
+  },
+  attackBox: {
+    offset: {
+        x: -170,
+        y: 50
+    },
+    width: 170,
+    height: 50
+  }
 })
 
 
@@ -92,23 +185,25 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
+
 function determineWinner({player1, player2, trackTimer}) {
     clearTimeout(trackTimer);  // once winner is determined, timer is stopped
 
+
     // if player1-health is same as player2-health, then it's a tie
     if (player1.health === player2.health) {
-        document.querySelector("#result-message").innerHTML = "TIE";
         document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#result-message").innerHTML = "GAME OVER: TIE";
     }
     // if player1 health is more than player2
     else if (player1.health > player2.health) {
-        document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
         document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
     }
     // if player2 health is more than player1
     else if (player1.health < player2.health) {
-        document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
         document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
     }
 }
 
@@ -126,15 +221,19 @@ function decrementTimer () {
     }
     
 }
-decrementTimer();  // call function that activates timer
+//decrementTimer();  // call function that activates timer
 
 // Function to add animations for players, frame by frame 
 function displayAnimation() {
     window.requestAnimationFrame(displayAnimation);  // inifinetly loop animate function
-    c.fillStyle = "yellow";      // sets background as yellow
+    document.querySelector(".healthbar-container").style.display = "flex";
+    c.fillStyle = "black";      // sets background as yellow
     c.fillRect(0, 0, canvas.width, canvas.height);   // make sure we are clearing canvas for each frame we loop 
 
     background.update();        // puts background image onto canvas
+
+    c.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    c.fillRect(0, 0, canvas.width, canvas.height)
 
     player1.update();
     player2.update();
@@ -146,36 +245,90 @@ function displayAnimation() {
     // movement for player1
     if (keyboardKeys.d.isPressed && player1.lastKeyPressed === 'd') {
         player1.velocity.x = movementRate;  
+        player1.switchSprite('run');
     } 
     else if (keyboardKeys.a.isPressed && player1.lastKeyPressed === 'a') {
         player1.velocity.x = -movementRate;
+        player1.switchSprite('run');
+    }
+    else {
+        player1.switchSprite("idle");
     }
 
     // movement for player2
     if (keyboardKeys.ArrowRight.isPressed && player2.lastKeyPressed === 'ArrowRight') {
         player2.velocity.x = movementRate;
+        player2.switchSprite('run');
+
     } 
     else if (keyboardKeys.ArrowLeft.isPressed && player2.lastKeyPressed === 'ArrowLeft') {
         player2.velocity.x = -movementRate;
+        player2.switchSprite('run');
     }
+    else {
+        player2.switchSprite("idle");
+    }
+
+
+
+    // player1 jumping movement
+    if (player1.velocity.y < 0) {
+        player1.switchSprite('jump');
+    } 
+    else if (player1.velocity.y > 0) {
+        player1.switchSprite('fall');
+    }
+
+    // player2 jumping movement
+    if (player2.velocity.y < 0) {
+        player2.switchSprite('jump');
+    } 
+    else if (player2.velocity.y > 0) {
+        player2.switchSprite('fall');
+    }
+
 
 
     // ****** Logic for detection collision ********
 
     // player 1 collision detection
-    if (rectangularCollision({rectangle1: player1, rectangle2: player2}) && player1.isAttacking) {
+    if (rectangularCollision({rectangle1: player1, rectangle2: player2}) && player1.isAttacking && player1.framesCurrent === 4) {
+       
+
+        player2.takeHit();
+
+       
         player1.isAttacking = false;
-        player2.health -= damagePoint;   // decrease player1 health
+        
+        // gsap.to('#player2-healthbar', {
+        //     width: player2.health + '%'
+        // }); 
         document.querySelector("#player2-healthbar").style.width = player2.health + "%";  // update visual healthbar by decreasing it
     }
 
-    // player 2 collision detection
-    if (rectangularCollision({rectangle1: player2, rectangle2: player1}) && player2.isAttacking) {
-        player2.isAttacking = false;
-        player1.health -= damagePoint;   // decrease player2 health 
-        document.querySelector("#player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
+    // if player misses
+    if (player1.isAttacking && player1.framesCurrent === 4) {
+        player1.isAttacking = false;
     }
 
+    // player 2 collision detection
+    if (rectangularCollision({rectangle1: player2, rectangle2: player1}) && player2.isAttacking && player2.framesCurrent === 2) {
+        // var player1_hit_audio = new Audio('./assets/audio/553285__deleted_user_12367688__hurt4.ogg');
+        // player1_hit_audio.play();
+        
+        player1.takeHit();
+        player2.isAttacking = false;
+        document.querySelector("#player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
+        // gsap.to('#player1-healthbar', {
+        //     width: player1.health + '%'
+        // });
+    
+    }
+
+     // if player misses
+    if (player2.isAttacking && player2.framesCurrent === 2) {
+        player2.isAttacking = false;
+    }
 
     // terminate the game if player1 or player2 health is finished
     if (player1.health <= 0 || player2.health <= 0) {
@@ -184,48 +337,117 @@ function displayAnimation() {
 
 }
 
-displayAnimation();   // call animate function to display canvas
+//displayAnimation();   // call animate function to display canvas
 
+
+// function handleKeyPress() {
+//     if (!isEnterKeyPressed) {
+//         window.addEventListener("keypress", (event) => {
+//             if (event.key === 'Enter' ) {
+//                 isEnterKeyPressed = true;
+//                 startGame();
+//             }
+//         });
+//     }
+// }
+
+// function handleKeyPress(event) {
+//     if (event.key === 'Enter') {
+//         window.removeEventListener('keydown', handleKeyPress);   // don't listen for "Enter" anymore
+//         document.querySelector("#starting-screen").style.display = "none";
+//         startGame();
+//     }
+// }
+
+
+// window.addEventListener('keydown', handleKeyPress);
+
+
+let isEnterKeyPressed = false;
+
+// Function to handle key and click events
+function handleInteraction() {
+    // Check if interaction has already occurred
+    if (!isEnterKeyPressed) {
+        // Update the interaction status
+        isEnterKeyPressed = true;
+
+        document.querySelector("#starting-screen").style.display = "none";
+        startGame();
+    }
+}
+
+// Attach event listeners to the document for key press and click events
+document.addEventListener("keydown", function (event) {
+    // Check if the pressed key is the "Enter" key (key code 13)
+    if (event.key === "Enter") {
+        // Handle the interaction
+        handleInteraction();
+    }
+});
+
+document.addEventListener("click", function () {
+    // Handle the interaction
+    handleInteraction();
+});
+
+
+
+// waitForUser();
+
+function startGame() {
+    decrementTimer();  // call function that activates timer
+    displayAnimation();  // call animate function to display canvas
+
+}
 
 // decides what happens when a key is pressed
 window.addEventListener('keydown', (event) => {
-    switch (event.key) {
+    if (!player1.dead) {
 
         // cases for when keys 'd', 'a', 'w' is pressed
-        case 'd':
-            keyboardKeys.d.isPressed = true;    // move player 1 pixel right when key d is pressed
-            player1.lastKeyPressed = 'd';
-            break;
-        case 'a':
-            keyboardKeys.a.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
-            player1.lastKeyPressed = 'a';
-            break;
-        // when keybaord 'w' is pressed, jump up
-        case 'w':
-            player1.velocity.y = -jumpForce;
-            break;
-        // when player1 spaces 'spacebar', attack 
-        case ' ':
-            player1.attack();
-            break;
+        switch (event.key) {
+            case 'd':
+                keyboardKeys.d.isPressed = true;    // move player 1 pixel right when key d is pressed
+                player1.lastKeyPressed = 'd';
+                break;
+            case 'a':
+                keyboardKeys.a.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
+                player1.lastKeyPressed = 'a';
+                break;
+            // when keybaord 'w' is pressed, jump up
+            case 'w':
+                player1.velocity.y = -jumpForce;
+                break;
+            // when player1 spaces 'spacebar', attack 
+            case 'v':
+                player1.attack();
+                break;
+        }
+    }
 
-        // ################################################## //
+
+    if (!player2.dead) {
+
         // cases for when arrow keys 'right', 'left', 'up' are pressed
-        case 'ArrowRight':
-            keyboardKeys.ArrowRight.isPressed = true;    // move player 1 pixel right when key d is pressed
-            player2.lastKeyPressed = "ArrowRight";
-            break;
-        case 'ArrowLeft':
-            keyboardKeys.ArrowLeft.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
-            player2.lastKeyPressed = "ArrowLeft";
-            break;
-        // when keybaord 'w' is pressed, jump up
-        case 'ArrowUp':
-            player2.velocity.y = -jumpForce;
-            break;
-        case 'ArrowDown':
-            player2.attack();
-            break;
+        switch(event.key) {
+            case 'ArrowRight':
+                keyboardKeys.ArrowRight.isPressed = true;    // move player 1 pixel right when key d is pressed
+                player2.lastKeyPressed = "ArrowRight";
+                break;
+            case 'ArrowLeft':
+                keyboardKeys.ArrowLeft.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
+                player2.lastKeyPressed = "ArrowLeft";
+                break;
+            // when keybaord 'w' is pressed, jump up
+            case 'ArrowUp':
+                player2.velocity.y = -jumpForce;
+                break;
+            case 'p':
+                player2.attack();
+                break;
+
+        }
     }
 })
 
@@ -240,9 +462,9 @@ window.addEventListener('keyup', (event) => {
         case 'a':
             keyboardKeys.a.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
             break;
-        case 'w':
-            keyboardKeys.w.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
-            break;
+        // case 'w':
+        //     keyboardKeys.w.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
+        //     break;
     }
 
     // for player2
@@ -253,9 +475,9 @@ window.addEventListener('keyup', (event) => {
         case 'ArrowLeft':
             keyboardKeys.ArrowLeft.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
             break;
-        case 'ArrowUp':
-            keyboardKeys.ArrowUp.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
-            break;
+        // case 'ArrowUp':
+        //     keyboardKeys.ArrowUp.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
+        //     break;
     }
 })
 
