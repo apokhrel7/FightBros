@@ -8,17 +8,20 @@
 
 // This the JavaScript "driver" function that runs the game  
 
-const canvas = document.querySelector('canvas');    //get the canvas from html
+const canvas = document.querySelector("canvas");    //get the canvas from html
 const c = canvas.getContext('2d');                  // make a 2d canvas
 
 // Set dimensions of canvas (where the game will be) 
 canvas.width = 1024;
 canvas.height = 576;
 
-const gravity = 0.5; // gravity for the players (required for when they jump and fall)
+const gravity = 0.8; // gravity for the players (required for when they jump and fall)
 const jumpForce = 22;  // force of each jump (how high players can jump)
 const movementRate = 6; //each player moves 6 pixels per frame
 let timer = 30;       // the game length is 30 seconds
+
+
+let isGameFinished = false;  // determines if game is finished
 
 
 c.fillRect(0, 0, canvas.width, canvas.height);      // This is to differentiate where the game is 
@@ -88,10 +91,10 @@ const player1 = new Fighter({
 
     attackBox: {
         offset: {
-            x: 100,
+            x: 85,
             y: 50
         },
-    width: 160,
+    width: 170,
     height: 50
     }
 })
@@ -152,7 +155,7 @@ const player2 = new Fighter({
   },
   attackBox: {
     offset: {
-        x: -170,
+        x: -220,
         y: 50
     },
     width: 170,
@@ -185,33 +188,32 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
-
-
-
 function determineWinner({player1, player2, trackTimer}) {
     clearTimeout(trackTimer);  // once winner is determined, timer is stopped
+    document.getElementById("game-over-container").style.display = "flex";
 
 
     // if player1-health is same as player2-health, then it's a tie
     if (player1.health === player2.health) {
-        document.querySelector("#game-over-container").style.display = "flex";
-        document.querySelector("#result-message").innerHTML = "GAME OVER: TIE";
+        document.getElementById("result-message").innerHTML = "GAME OVER: TIE";
     }
     // if player1 health is more than player2
     else if (player1.health > player2.health) {
-        document.querySelector("#game-over-container").style.display = "flex";
-        document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
+        document.getElementById("result-message").innerHTML = "Player 1 Victory!";
     }
     // if player2 health is more than player1
     else if (player1.health < player2.health) {
-        document.querySelector("#game-over-container").style.display = "flex";
-        document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
+        document.getElementById("result-message").innerHTML = "Player 2 Victory!";
     }
 
     document.getElementById("replay-button").addEventListener("click", () => {
         document.getElementById("game-over-container").style.display = "none";
         location.reload();
+
+
     });
+
+    isGameFinished = true;
 }
 
 
@@ -220,7 +222,7 @@ function decrementTimer () {
     if (timer > 0) {
         trackTimer = setTimeout(decrementTimer, 1000);
         timer-=1;   // decrease timer by 1 second
-        document.querySelector("#timer").innerHTML = timer;  // update timer in html as it decreases
+        document.getElementById("timer").innerHTML = timer;  // update timer in html as it decreases
     }
 
     // if the timer is 0 (game has ended)
@@ -233,9 +235,13 @@ function decrementTimer () {
 
 // Function to add animations for players, frame by frame
 function displayAnimation() {
+
+    if (isGameFinished) return;
     
     requestAnimationFrame(displayAnimation);  // inifinetly loop animate function
-    document.querySelector(".healthbar-container").style.display = "flex";
+
+    document.querySelector(".healthbar-container").style.display = "flex";  // display player healthbar
+
     c.fillStyle = "black";      // sets background as yellow
     c.fillRect(0, 0, canvas.width, canvas.height);   // make sure we are clearing canvas for each frame we loop 
 
@@ -251,12 +257,12 @@ function displayAnimation() {
     player2.velocity.x = 0;  // stops movement when keys are lifted up
 
 
-    // movement for player1
-    if (keyboardKeys.d.isPressed && player1.lastKeyPressed === 'd') {
+    // movement for player1, also makes sure player1 doesn't go off the screen
+    if (keyboardKeys.d.isPressed && player1.lastKeyPressed === 'd' && player1.position.x <= (canvas.width - player1.width - player1.attackBox.offset.x)) {
         player1.velocity.x = movementRate;  
         player1.switchSprite('run');
     } 
-    else if (keyboardKeys.a.isPressed && player1.lastKeyPressed === 'a') {
+    else if (keyboardKeys.a.isPressed && player1.lastKeyPressed === 'a' && player1.position.x >= 0-player1.offset.x) {
         player1.velocity.x = -movementRate;
         player1.switchSprite('run');
     }
@@ -264,13 +270,13 @@ function displayAnimation() {
         player1.switchSprite("idle");
     }
 
-    // movement for player2
-    if (keyboardKeys.ArrowRight.isPressed && player2.lastKeyPressed === 'ArrowRight') {
+    // movement for player2,  also makes sure player2 doesn't go off the screen
+    if (keyboardKeys.ArrowRight.isPressed && player2.lastKeyPressed === 'ArrowRight' && player2.position.x <= (canvas.width - player2.width)) {
         player2.velocity.x = movementRate;
         player2.switchSprite('run');
 
     } 
-    else if (keyboardKeys.ArrowLeft.isPressed && player2.lastKeyPressed === 'ArrowLeft') {
+    else if (keyboardKeys.ArrowLeft.isPressed && player2.lastKeyPressed === 'ArrowLeft' && player2.position.x >= 0) {
         player2.velocity.x = -movementRate;
         player2.switchSprite('run');
     }
@@ -302,17 +308,10 @@ function displayAnimation() {
 
     // player 1 collision detection
     if (rectangularCollision({rectangle1: player1, rectangle2: player2}) && player1.isAttacking && player1.framesCurrent === 4) {
-       
-
         player2.takeHit();
-
-       
         player1.isAttacking = false;
-        
-        // gsap.to('#player2-healthbar', {
-        //     width: player2.health + '%'
-        // }); 
-        document.querySelector("#player2-healthbar").style.width = player2.health + "%";  // update visual healthbar by decreasing it
+    
+        document.getElementById("player2-healthbar").style.width = player2.health + "%";  // update visual healthbar by decreasing it
     }
 
     // if player misses
@@ -322,12 +321,10 @@ function displayAnimation() {
 
     // player 2 collision detection
     if (rectangularCollision({rectangle1: player2, rectangle2: player1}) && player2.isAttacking && player2.framesCurrent === 2) {
-        // var player1_hit_audio = new Audio('./assets/audio/553285__deleted_user_12367688__hurt4.ogg');
-        // player1_hit_audio.play();
-        
         player1.takeHit();
         player2.isAttacking = false;
-        document.querySelector("#player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
+
+        document.getElementById("player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
         // gsap.to('#player1-healthbar', {
         //     width: player1.health + '%'
         // });
@@ -346,31 +343,6 @@ function displayAnimation() {
 
 }
 
-//displayAnimation();   // call animate function to display canvas
-
-
-// function handleKeyPress() {
-//     if (!isEnterKeyPressed) {
-//         window.addEventListener("keypress", (event) => {
-//             if (event.key === 'Enter' ) {
-//                 isEnterKeyPressed = true;
-//                 startGame();
-//             }
-//         });
-//     }
-// }
-
-// function handleKeyPress(event) {
-//     if (event.key === 'Enter') {
-//         window.removeEventListener('keydown', handleKeyPress);   // don't listen for "Enter" anymore
-//         document.querySelector("#starting-screen").style.display = "none";
-//         startGame();
-//     }
-// }
-
-
-// window.addEventListener('keydown', handleKeyPress);
-
 
 let isEnterKeyPressed = false;
 
@@ -381,7 +353,7 @@ function handleInteraction() {
         // Update the interaction status
         isEnterKeyPressed = true;
 
-        document.querySelector("#starting-screen").style.display = "none";
+        document.getElementById("starting-screen").style.display = "none";
         startGame();
     }
 }
@@ -405,11 +377,12 @@ document.addEventListener("keydown", function (event) {
 function startGame() {
     decrementTimer();  // call function that activates timer
     displayAnimation();  // call animate function to display canvas
-
 }
 
 // decides what happens when a key is pressed
 window.addEventListener('keydown', (event) => {
+    
+    // player1 can only move if they are not dead
     if (!player1.dead) {
 
         // cases for when keys 'd', 'a', 'w' is pressed
@@ -424,7 +397,7 @@ window.addEventListener('keydown', (event) => {
                 break;
             // when keybaord 'w' is pressed, jump up
             case 'w':
-                player1.velocity.y = -jumpForce;
+                if (player1.isOnTheGround) player1.velocity.y = -jumpForce;  // player can jump only if they are in the ground
                 break;
             // when player1 spaces 'spacebar', attack 
             case 'v':
@@ -433,7 +406,7 @@ window.addEventListener('keydown', (event) => {
         }
     }
 
-
+    // player1 can only move if they are not dead
     if (!player2.dead) {
 
         // cases for when arrow keys 'right', 'left', 'up' are pressed
@@ -448,7 +421,7 @@ window.addEventListener('keydown', (event) => {
                 break;
             // when keybaord 'w' is pressed, jump up
             case 'ArrowUp':
-                player2.velocity.y = -jumpForce;
+                if (player2.isOnTheGround) player2.velocity.y = -jumpForce;  // player can jump only if they are in the ground
                 break;
             case 'p':
                 player2.attack();
