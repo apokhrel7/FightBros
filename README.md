@@ -20,3 +20,7 @@ Both players begin with maximum health. For each hit on a player, their correspo
 ## Assets
 - autumn-landscape-background.jpg is CC0 taken from https://www.freepik.com/free-vector/autumn-landscape-background_1165702.htm#query=game%20background&position=2&from_view=keyword&track=ais
 - dino_transparent.png was designed by myself
+- https://luizmelo.itch.io/martial-hero-3 (CC0)
+- https://www.free-stock-music.com/sound-effects-library-knife-slash.html (CC0 1.0)
+- https://freesound.org/people/MATRIXXX_/sounds/486943/ (CC0)
+- https://freesound.org/people/deleted_user_12367688/sounds/553285/ (CC0)
