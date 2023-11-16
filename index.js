@@ -186,26 +186,34 @@ function rectangularCollision({rectangle1, rectangle2}) {
 }
 
 
+
+
 function determineWinner({player1, player2, trackTimer}) {
     clearTimeout(trackTimer);  // once winner is determined, timer is stopped
 
 
     // if player1-health is same as player2-health, then it's a tie
     if (player1.health === player2.health) {
-        document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#game-over-container").style.display = "flex";
         document.querySelector("#result-message").innerHTML = "GAME OVER: TIE";
     }
     // if player1 health is more than player2
     else if (player1.health > player2.health) {
-        document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#game-over-container").style.display = "flex";
         document.querySelector("#result-message").innerHTML = "Player 1 Victory!";
     }
     // if player2 health is more than player1
     else if (player1.health < player2.health) {
-        document.querySelector("#result-message").style.display = "flex";
+        document.querySelector("#game-over-container").style.display = "flex";
         document.querySelector("#result-message").innerHTML = "Player 2 Victory!";
     }
+
+    document.getElementById("replay-button").addEventListener("click", () => {
+        document.getElementById("game-over-container").style.display = "none";
+        location.reload();
+    });
 }
+
 
 let trackTimer;  // allows to cancel timer once winner is found
 function decrementTimer () {
@@ -221,11 +229,12 @@ function decrementTimer () {
     }
     
 }
-//decrementTimer();  // call function that activates timer
 
-// Function to add animations for players, frame by frame 
+
+// Function to add animations for players, frame by frame
 function displayAnimation() {
-    window.requestAnimationFrame(displayAnimation);  // inifinetly loop animate function
+    
+    requestAnimationFrame(displayAnimation);  // inifinetly loop animate function
     document.querySelector(".healthbar-container").style.display = "flex";
     c.fillStyle = "black";      // sets background as yellow
     c.fillRect(0, 0, canvas.width, canvas.height);   // make sure we are clearing canvas for each frame we loop 
@@ -377,6 +386,11 @@ function handleInteraction() {
     }
 }
 
+document.addEventListener("click", function () {
+    // Handle the interaction
+    handleInteraction();
+});
+
 // Attach event listeners to the document for key press and click events
 document.addEventListener("keydown", function (event) {
     // Check if the pressed key is the "Enter" key (key code 13)
@@ -386,15 +400,8 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-document.addEventListener("click", function () {
-    // Handle the interaction
-    handleInteraction();
-});
 
-
-
-// waitForUser();
-
+// function that starts the game
 function startGame() {
     decrementTimer();  // call function that activates timer
     displayAnimation();  // call animate function to display canvas
