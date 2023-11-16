@@ -12,11 +12,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
+                
     <title>Fight Bros</title>
 </head>
 
 <body>
     <div class="container">
+        <div id="starting-screen">
+            <h1>FIGHT BROS</h1>
+            <p>Click Anywhere or Press Enter to Play</p>
+        </div>
+
+        <div id="canvas-container">
+            <canvas></canvas>
+        </div>
+
+        
         <div class="healthbar-container">
 
             <!-- Player1 healthbar -->
@@ -34,13 +46,35 @@
                 <div id="player2-healthbar" class="healthbar"></div>
             </div>
         </div>
-        <div id="result-message">Tie</div>
-        <canvas></canvas>
+        <div id="result-message"></div>
+    </div>
+
+    <div class="information">
+        <div id="instructions-title">
+            <h1>Instructions</h1>
+        </div>
+        <div class="keyboard-instructions">
+            <div class="keys">
+                <h1>Player 1</h1>
+                <p>Left: A</p>
+                <p>Right: D</p>
+                <p>Jump: W</p>
+                <p>Attack: V</p>
+            </div>
+            <div class="keys">
+                <h1>Player 2</h1>
+                <p>Left: Left arrow key</p>
+                <p>Right: Right arrow key</p>
+                <p>Jump: Up arrow key</p>
+                <p>Attack: P</p>
+            </div>
+        </div>
     </div>
     
     <!-- TODO: add instructions div to show how to play game using keyboards -->
 
     <!-- Add link to script file here when made-->
+    <script src="js/classes.js"></script>
     <script src="index.js"></script>
 </body>
 
