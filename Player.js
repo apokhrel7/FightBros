@@ -1,5 +1,3 @@
-
-
 import Sprite from '/Sprite.js'
 import { canvas } from '/index.js';
 
