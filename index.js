@@ -6,16 +6,18 @@
     * UCID: 30115576
 */
 
-// This the JavaScript "driver" function that runs the game  
+// This the JavaScript "driver" function that runs the game
 
-const canvas = document.querySelector("canvas");    //get the canvas from html
-const c = canvas.getContext('2d');                  // make a 2d canvas
+import Player from '/Player.js'
+import Sprite from '/Sprite.js'
+
+export const canvas = document.querySelector("canvas");    //get the canvas from html
+export const c = canvas.getContext('2d');                  // make a 2d canvas
 
 // Set dimensions of canvas (where the game will be) 
 canvas.width = 1024;
 canvas.height = 576;
 
-const gravity = 0.8; // gravity for the players (required for when they jump and fall)
 const jumpForce = 22;  // force of each jump (how high players can jump)
 const movementRate = 6; //each player moves 6 pixels per frame
 let timer = 30;       // the game length is 30 seconds
@@ -35,7 +37,7 @@ const background = new Sprite({
     image_src: "./assets/img/background.png"
 })
 
-const player1 = new Fighter({
+const player1 = new Player({
     position: {
         x: 0,
         y: 0
@@ -100,7 +102,7 @@ const player1 = new Fighter({
 })
 
 
-const player2 = new Fighter({
+const player2 = new Player({
     position: {
         x: 900,
         y: 100
