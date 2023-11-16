@@ -6,85 +6,67 @@
 //     * UCID: 30115576
 // */
 
+import { c } from "/index.js";
 
 
-// // This file is responsible for creating the general sprites used in animation  
+// This file is responsible for creating the general sprites used in animation  
 
 
-// // Class 'Sprite' used to initialize sprite attributes (dimensions, scale, position)
-// // This class is used to draw sprites in the canvas and update each sprite
+// Class 'Sprite' used to initialize sprite attributes (dimensions, scale, position)
+// This class is used to draw sprites in the canvas and update each sprite
 
 class Sprite {
-    constructor({position, velocity}) {
+    constructor({position, image_src, scale = 1, framesMax = 1,  offset = { x: 0, y: 0 } }) {
         this.position = position;
-        this.velocity = velocity;
+        this.width = 50;
         this.height = 150;
-        this.lastKeyPressed;
+        this.image = new Image();  // creates HTML image inside JS
+        this.image.src = image_src; 
+        this.scale = scale;
+        this.framesCurrent = 0;
+        this.framesMax = framesMax;
+
+        // below is optional, maybe deleted later??
+        this.framesElapsed = 0;
+        this.framesHold = 5;
+        this.offset = offset;
     }
 
-    // Draw the sprites in the canvas (tag in html file).
     draw() {
-        c.fillStyle = 'green';  // sprite is green
-        c.fillRect(this.position.x, this.position.y, 50, this.height); 
+        c.drawImage(
+            this.image, 
+            this.framesCurrent * (this.image.width / this.framesMax), 
+            0, 
+            this.image.width/this.framesMax, 
+            this.image.height, 
+            this.position.x - this.offset.x, 
+            this.position.y - this.offset.y, 
+            (this.image.width/this.framesMax) * this.scale, 
+            this.image.height * this.scale
+        ) 
+    }
+
+    animateFrames() {
+        this.framesElapsed += 1;
+
+        if (this.framesElapsed % this.framesHold === 0) {
+            // Go through all the frames 
+            if (this.framesCurrent < this.framesMax - 1) {
+                this.framesCurrent += 1;   // go to next frame
+            }
+            // reset back to first frame once all frames are passed
+            else {
+                this.framesCurrent = 0;
+            }
+        }
     }
 
 
     // For every frame, update sprites
     update() {
         this.draw();   // call draw method again
-
-        // Determines how to move players
-        this.position.x += this.velocity.x;   // move in x-direction
-        this.position.y += this.velocity.y;   // move in y-direction
-
-        // Prevents sprite from falling down canvas
-        // If overall position of sprite is greater than or equal to canvas...
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0;
-        }   
-
-        // gravity is ONLY ADDED if sprites (players) haven't reached bottom of canvas
-        else {
-            this.velocity.y += gravity;
-        }
-
+        this.animateFrames();
     }
 }
 
-const player1 = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    velocity: {
-        x: 0,
-        y: 0
-    }
-})
-
-
-const player2 = new Sprite({
-    position: {
-        x: 400,
-        y: 100
-    },
-    velocity: {
-        x: 0,
-        y: 0
-    }
-})
-
-
-
-// /******************************************************************************************** */
-
-// // Create instance of class Sprite for the background
-
-// // export const background = new Sprite({
-// // })
-
-
-// /******************************************************************************************** */
-
-
-// export default Sprite;
+export default Sprite;
