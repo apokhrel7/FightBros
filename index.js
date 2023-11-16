@@ -224,7 +224,7 @@ window.addEventListener('keydown', (event) => {
             player2.velocity.y = -jumpForce;
             break;
         case 'ArrowDown':
-            player2.isAttacking = true;
+            player2.attack();
             break;
     }
 })
