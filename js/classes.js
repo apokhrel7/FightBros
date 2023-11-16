@@ -1,5 +1,8 @@
+const damagePoint = 10;  // each time a player gets hit, their health decreases by 10%
+
+
 class Sprite {
-    constructor({position, image_src, scale = 1, framesMax = 1}) {
+    constructor({position, image_src, scale = 1, framesMax = 1,  offset = { x: 0, y: 0 } }) {
         this.position = position;
         this.width = 50;
         this.height = 150;
@@ -11,7 +14,8 @@ class Sprite {
 
         // below is optional, maybe deleted later??
         this.framesElapsed = 0;
-        this.framesHold = 10;
+        this.framesHold = 5;
+        this.offset = offset;
     }
 
     draw() {
@@ -23,7 +27,7 @@ class Sprite {
             this.image.height, 
             this.position.x - this.offset.x, 
             this.position.y - this.offset.y, 
-            (this.image.width)/this.framesMax * this.scale, 
+            (this.image.width/this.framesMax) * this.scale, 
             this.image.height * this.scale
         ) 
     }
@@ -53,23 +57,26 @@ class Sprite {
 
 
 
-
-
 class Fighter extends Sprite {
-    constructor({position, velocity, colour = "green", offset = offset = { x: 0, y: 0 }, sprites, attackBox = { offset: {}, width: undefined, height: undefined }, image_src, scale = 1, framesMax = 1}) {
+    constructor({position, velocity, colour = "green", offset = { x: 0, y: 0 }, sprites, attackBox = { offset: {}, width: undefined, height: undefined }, image_src, hit_audio_src, scale = 1, framesMax = 1}) {
         super({
             position,
             image_src,
             scale,
             framesMax,
             offset
-        });   // calls constructor of parent (class 'Sprite')
+        })   // calls constructor of parent (class 'Sprite')
         
         this.velocity = velocity;
         this.width = 50;
         this.height = 150;
         this.lastKeyPressed;
 
+        this.isOnTheGround = false;
+        
+        this.hit_audio = new Audio();
+        this.hit_audio.src = hit_audio_src;
+        this.attack_audio = new Audio("./assets/audio/sound-effects-library-knife-slash.mp3");
         
         // area that determines where players can attack
         this.attackBox = {
@@ -96,6 +103,8 @@ class Fighter extends Sprite {
             sprites[sprite].image = new Image()
             sprites[sprite].image.src = sprites[sprite].image_src
         }
+
+       
     }
 
     // // Draw the sprites in the canvas (tag in html file).
@@ -132,50 +141,53 @@ class Fighter extends Sprite {
         // Prevents sprite from falling down canvas
         // If overall position of sprite is greater than or equal to canvas...
         if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
+            this.isOnTheGround = true;  // player is in the ground, they can jump again 
             this.velocity.y = 0;
             this.position.y = 330;
         }   
         // gravity is ONLY ADDED if sprites (players) haven't reached bottom of canvas
         else {
+            this.isOnTheGround = false;           // player is in the air, they can't jump
             this.velocity.y += gravity;
         }
     }
 
     attack() {
+        this.attack_audio.play();
         this.switchSprite("attack1");
         this.isAttacking = true;
     }
 
     takeHit() {
-        this.health -= 20
+        this.health -= damagePoint;
     
         if (this.health <= 0) {
-          this.switchSprite('death')
+          this.switchSprite('death');
         } 
-        else this.switchSprite('takeHit')
+        else {
+            this.hit_audio.play();
+            this.switchSprite('takeHit');
+        }
     }
 
 
     switchSprite(sprite) {
     if (this.image === this.sprites.death.image) {
-      if (this.framesCurrent === this.sprites.death.framesMax - 1)
-        this.dead = true
-      return
+        if (this.framesCurrent === this.sprites.death.framesMax - 1) {
+            this.dead = true
+        }
+        return;
     }
 
     // overriding all other animations with the attack animation
-    if (
-      this.image === this.sprites.attack1.image &&
-      this.framesCurrent < this.sprites.attack1.framesMax - 1
-    )
-      return
+    if (this.image === this.sprites.attack1.image && this.framesCurrent < this.sprites.attack1.framesMax - 1) {
+        return;
+    }
 
     // override when fighter gets hit
-    if (
-      this.image === this.sprites.takeHit.image &&
-      this.framesCurrent < this.sprites.takeHit.framesMax - 1
-    )
-      return
+    if (this.image === this.sprites.takeHit.image && this.framesCurrent < this.sprites.takeHit.framesMax - 1) {
+        return;
+    }
 
     switch (sprite) {
         case 'idle':
