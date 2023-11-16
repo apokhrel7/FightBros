@@ -7,12 +7,6 @@
 // */
 
 
-// const canvas = document.querySelector('canvas');
-// const c = canvas.getContext('2d');
-
-// // initialize gravity for the players (required for when they jump and fall)
-// gravity = 0.9;
-
 
 // // This file is responsible for creating the general sprites used in animation  
 
@@ -53,6 +47,7 @@ class Sprite {
         else {
             this.velocity.y += gravity;
         }
+
     }
 }
 
