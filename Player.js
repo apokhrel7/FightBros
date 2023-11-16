@@ -1,5 +1,18 @@
+/*
+    * Course: SENG 513
+    * Date: Oct 23, 2023
+    * Assignment 2 - Part 2
+    * Name: Anish Pokhrel
+    * UCID: 30115576
+*/
+
+
+
 import Sprite from '/Sprite.js'
 import { canvas } from '/index.js';
+
+
+// ****** This file creates Players from the Sprite class in Sprite.js ********
 
 const damagePoint = 10;  // each time a player gets hit, their health decreases by 10%
 const gravity = 0.8; // gravity for the players (required for when they jump and fall)
@@ -53,19 +66,6 @@ class Player extends Sprite {
 
        
     }
-
-    // // Draw the sprites in the canvas (tag in html file).
-    // draw() {
-    //     c.fillStyle = this.colour;  // sprite is green
-    //     c.fillRect(this.position.x, this.position.y, this.width, this.height); 
-
-    //     // draw attack border
-    //     if (this.isAttacking) {
-    //         c.fillStyle = "red";
-    //         c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
-    //     }
-    // }
-
 
     // For every frame, update sprites
     update() {

@@ -1,15 +1,15 @@
-// /*
-//     * Course: SENG 513
-//     * Date: Oct 23, 2023
-//     * Assignment 2
-//     * Name: Anish Pokhrel
-//     * UCID: 30115576
-// */
+/*
+    * Course: SENG 513
+    * Date: Oct 23, 2023
+    * Assignment 2 - Part 2
+    * Name: Anish Pokhrel
+    * UCID: 30115576
+*/
 
 import { c } from "/index.js";
 
 
-// This file is responsible for creating the general sprites used in animation  
+// ****** This file is responsible for creating the general sprites used in animation ********* 
 
 
 // Class 'Sprite' used to initialize sprite attributes (dimensions, scale, position)

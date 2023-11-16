@@ -1,12 +1,12 @@
 /*
     * Course: SENG 513
     * Date: Oct 23, 2023
-    * Assignment 2
+    * Assignment 2 - Part 2
     * Name: Anish Pokhrel
     * UCID: 30115576
 */
 
-// This the JavaScript "driver" function that runs the game
+// This the "driver" function that runs the game
 
 import Player from '/Player.js'
 import Sprite from '/Sprite.js'
@@ -190,6 +190,10 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
+
+// Function to find the winner when game has ended or a player has been defeated
+// Inputs: player1, player2, timer
+
 function determineWinner({player1, player2, trackTimer}) {
     clearTimeout(trackTimer);  // once winner is determined, timer is stopped
     document.getElementById("game-over-container").style.display = "flex";
@@ -218,6 +222,9 @@ function determineWinner({player1, player2, trackTimer}) {
     isGameFinished = true;
 }
 
+
+
+// Function to decrease the timer. If timer reaches 0 announce the winner based on remaining health. If both players have same health, declare it a draw.
 
 let trackTimer;  // allows to cancel timer once winner is found
 function decrementTimer () {
@@ -462,58 +469,3 @@ window.addEventListener('keyup', (event) => {
         //     break;
     }
 })
-
-
-//     Check if either player is attacking the other:
-//                  player1.attack(player2)
-//                  player2.attack(player1)
-
-//     if game has not ended, but one or both of the players have died then find the winner
-
-
-/******************************************************************************************** */
-
-/*  Track the following attributes:
-        * Game time
-        * Flag to check if game has ended
-        * Player 1 and Player 2 event listeners to check their states
- */
-
-
-
-/******************************************************************************************** */
-
-// Function to start the game 
-// function beginGame () {
-//     //activate animations
-//     // update player states
-// }
-
-
-// Now invoke the method
-// beginGame();
-
-
-
-/******************************************************************************************** */
-
-// Function to decrease the timer. If timer reaches 0 announce the winner based on remaining health. If both players have same health, declare it a draw.
-// function decrementTimer() {
-// }
-
-
-/******************************************************************************************** */
-
-// Function to control all keys in the game
-
-
-
-
-// Function to find the winner when game has ended or a player has been defeated
-// Inputs: player1, player2, timer
-
-// function findWinnder({ player1, player2, timer }) {
-//     Stop the timer as game ended.
-//     Set gameEnded flag to true.
-//     Display the result (whether player1 or player 2 won, or if it was a draw)
-// }
