@@ -19,16 +19,20 @@
 
 <body>
     <div class="container">
+
+        <!-- Displays message before game, asks user to click or press enter to play the game -->
         <div id="starting-screen">
             <h1>FIGHT BROS</h1>
             <p>Click Anywhere or Press Enter to Play</p>
         </div>
 
         <div>
+
+            <!-- Gameplay is displayed here -->
             <canvas id="canvas-container"></canvas>
         </div>
 
-        
+        <!-- Container for player1 and player2 healthbar  -->
         <div class="healthbar-container">
 
             <!-- Player1 healthbar -->
@@ -52,6 +56,7 @@
         </div>
     </div>
 
+    <!-- "Hot to play" instructions -->
     <div class="information">
         <div id="instructions-title">
             <h1>Instructions</h1>
@@ -73,12 +78,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- TODO: add instructions div to show how to play game using keyboards -->
-
-    <!-- Add link to script file here when made-->
-    <!-- <script src="classes.js"></script> -->
     <script type="module" src="index.js"></script>
 </body>
-
 </html>
