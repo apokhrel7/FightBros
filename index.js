@@ -183,7 +183,9 @@ const keyboardKeys = {
     }
 }
 
-function rectangularCollision({rectangle1, rectangle2}) {
+// Helper function for collision detection
+// Two objects (sprites/rectangles) collide if they overlap each other 
+function spriteCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.attackBox.width + rectangle1.attackBox.position.x >= rectangle2.position.x && 
         rectangle1.attackBox.position.x <= rectangle2.position.x + rectangle2.width &&
@@ -318,7 +320,7 @@ function displayAnimation() {
     // ****** Logic for detection collision ********
 
     // player 1 collision detection
-    if (rectangularCollision({rectangle1: player1, rectangle2: player2}) && player1.isAttacking && player1.framesCurrent === 4) {
+    if (spriteCollision({rectangle1: player1, rectangle2: player2}) && player1.isAttacking && player1.framesCurrent === 4) {
         player2.takeHit();
         player1.isAttacking = false;
     
@@ -331,7 +333,7 @@ function displayAnimation() {
     }
 
     // player 2 collision detection
-    if (rectangularCollision({rectangle1: player2, rectangle2: player1}) && player2.isAttacking && player2.framesCurrent === 2) {
+    if (spriteCollision({rectangle1: player2, rectangle2: player1}) && player2.isAttacking && player2.framesCurrent === 2) {
         player1.takeHit();
         player2.isAttacking = false;
 
