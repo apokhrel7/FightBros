@@ -37,6 +37,7 @@ const background = new Sprite({
     image_src: "./assets/img/background.png"
 })
 
+// create player1
 const player1 = new Player({
     position: {
         x: 0,
@@ -102,6 +103,7 @@ const player1 = new Player({
 })
 
 
+// create player2
 const player2 = new Player({
     position: {
         x: 900,
@@ -191,7 +193,7 @@ function rectangularCollision({rectangle1, rectangle2}) {
 }
 
 
-// Function to find the winner when game has ended or a player has been defeated
+// Function to find the winner when game has ended or if a player has been defeated
 // Inputs: player1, player2, timer
 
 function determineWinner({player1, player2, trackTimer}) {
@@ -256,7 +258,7 @@ function displayAnimation() {
 
     background.update();        // puts background image onto canvas
 
-    c.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    c.fillStyle = 'rgba(255, 255, 255, 0.15)';   // increase opacity of background so players are easier to see
     c.fillRect(0, 0, canvas.width, canvas.height)
 
     player1.update();
@@ -323,7 +325,7 @@ function displayAnimation() {
         document.getElementById("player2-healthbar").style.width = player2.health + "%";  // update visual healthbar by decreasing it
     }
 
-    // if player misses
+    // if player1 misses
     if (player1.isAttacking && player1.framesCurrent === 4) {
         player1.isAttacking = false;
     }
@@ -334,22 +336,17 @@ function displayAnimation() {
         player2.isAttacking = false;
 
         document.getElementById("player1-healthbar").style.width = player1.health + "%"; // update visual healthbar by decreasing it
-        // gsap.to('#player1-healthbar', {
-        //     width: player1.health + '%'
-        // });
-    
     }
 
-     // if player misses
+     // if player2 misses
     if (player2.isAttacking && player2.framesCurrent === 2) {
         player2.isAttacking = false;
     }
 
-    // terminate the game if player1 or player2 health is finished
+    // terminate the game if player1 or player2 health is 0 (either or both died)
     if (player1.health <= 0 || player2.health <= 0) {
         determineWinner({player1, player2, trackTimer});
     }
-
 }
 
 
@@ -394,21 +391,27 @@ window.addEventListener('keydown', (event) => {
     // player1 can only move if they are not dead
     if (!player1.dead) {
 
-        // cases for when keys 'd', 'a', 'w' is pressed
+        // cases for when keys 'd', 'a', 'w' is pressed for player1
         switch (event.key) {
+
+            // when keyboard 'd' is pressed, go right
             case 'd':
                 keyboardKeys.d.isPressed = true;    // move player 1 pixel right when key d is pressed
                 player1.lastKeyPressed = 'd';
                 break;
+
+            // when keyboard 'a' is pressed, go left
             case 'a':
                 keyboardKeys.a.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
                 player1.lastKeyPressed = 'a';
                 break;
-            // when keybaord 'w' is pressed, jump up
+
+            // when keyboard 'w' is pressed, jump up
             case 'w':
                 if (player1.isOnTheGround) player1.velocity.y = -jumpForce;  // player can jump only if they are in the ground
                 break;
-            // when player1 spaces 'spacebar', attack 
+                
+            // when keyboard 'v' is pressed, attack 
             case 'v':
                 player1.attack();
                 break;
@@ -418,20 +421,27 @@ window.addEventListener('keydown', (event) => {
     // player1 can only move if they are not dead
     if (!player2.dead) {
 
-        // cases for when arrow keys 'right', 'left', 'up' are pressed
+        // cases for when arrow keys 'right', 'left', 'up' are pressed for player2
         switch(event.key) {
+            
+            // when keyboard 'right' is pressed, go right
             case 'ArrowRight':
                 keyboardKeys.ArrowRight.isPressed = true;    // move player 1 pixel right when key d is pressed
                 player2.lastKeyPressed = "ArrowRight";
                 break;
+            
+            // when keyboard 'left' is pressed, go left
             case 'ArrowLeft':
                 keyboardKeys.ArrowLeft.isPressed = true;  // move player 1 pixel left when key 'a' is pressed
                 player2.lastKeyPressed = "ArrowLeft";
                 break;
-            // when keybaord 'w' is pressed, jump up
+
+            // when keyboard 'up' is pressed, jump up
             case 'ArrowUp':
                 if (player2.isOnTheGround) player2.velocity.y = -jumpForce;  // player can jump only if they are in the ground
                 break;
+            
+            // when keyboard 'p' is pressed, attack
             case 'p':
                 player2.attack();
                 break;
@@ -451,9 +461,6 @@ window.addEventListener('keyup', (event) => {
         case 'a':
             keyboardKeys.a.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
             break;
-        // case 'w':
-        //     keyboardKeys.w.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
-        //     break;
     }
 
     // for player2
@@ -464,8 +471,5 @@ window.addEventListener('keyup', (event) => {
         case 'ArrowLeft':
             keyboardKeys.ArrowLeft.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
             break;
-        // case 'ArrowUp':
-        //     keyboardKeys.ArrowUp.isPressed = false;  // stop player from moving when key 'a' (left) is not pressed
-        //     break;
     }
 })

@@ -60,6 +60,7 @@ class Player extends Sprite {
         this.sprites = sprites;
         this.dead = false;
 
+        // loop through all the frames
         for (const sprite in this.sprites) {
             sprites[sprite].image = new Image()
             sprites[sprite].image.src = sprites[sprite].image_src
@@ -100,18 +101,23 @@ class Player extends Sprite {
         }
     }
 
+    // funcitonality for when a player attacks
     attack() {
-        this.attack_audio.play();
-        this.switchSprite("attack1");
-        this.isAttacking = true;
+        this.attack_audio.play();   // play sword slash sound
+        this.switchSprite("attack1");   // display 'attack' sprite (animation)
+        this.isAttacking = true;        // update attack state to true
     }
 
+    // functionality for when a player is hit
     takeHit() {
-        this.health -= damagePoint;
+        this.health -= damagePoint;   // health is reduced
     
+        // if health is 0, show death animation
         if (this.health <= 0) {
           this.switchSprite('death');
         } 
+
+        // if player is getting hit, but still alive show player 'taking hit' animation
         else {
             this.hit_audio.play();
             this.switchSprite('takeHit');
@@ -137,6 +143,9 @@ class Player extends Sprite {
         return;
     }
 
+
+    // Decides which frames to choose when player is in the following states: 'idle', 'run', 'jump', 'fall', 'attack',
+    // 'takeHit', 'death'
     switch (sprite) {
         case 'idle':
             if (this.image !== this.sprites.idle.image) {

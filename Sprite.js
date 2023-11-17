@@ -15,7 +15,7 @@ import { c } from "/index.js";
 // Help with animations are credited to https://chriscourses.com/
 
 // Class 'Sprite' used to initialize sprite attributes (dimensions, scale, position)
-// This class is used to draw sprites in the canvas and update each sprite
+// This class is used to draw sprites in the canvas, update each sprite, and create a smooth animation
 
 class Sprite {
     constructor({position, image_src, scale = 1, framesMax = 1,  offset = { x: 0, y: 0 } }) {
@@ -33,6 +33,7 @@ class Sprite {
         this.offset = offset;
     }
 
+    // draw frames onto canvas
     draw() {
         c.drawImage(
             this.image, 
@@ -47,6 +48,7 @@ class Sprite {
         ) 
     }
 
+    // goes through all frames and creates smooth animation
     animateFrames() {
         this.framesElapsed += 1;
 
