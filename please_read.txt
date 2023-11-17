@@ -1,4 +1,4 @@
 Name: Anish Pokhrel
 GitHub username: apokhrel7
-Github Repo Link: https://github.com/apokhrel7/SENG-513-Assignment2 
+Github Repo Link for Part 2 of this assignment: https://github.com/apokhrel7/SENG-513-Assignment2/tree/part2 
 Github Repo Name: SENG-513-Assignment2
