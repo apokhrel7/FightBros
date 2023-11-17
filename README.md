@@ -1,12 +1,12 @@
-# SENG-513-Assignment2: Fight Bros
+# Fall 2023 SENG-513-Assignment 2: Fight Bros
 
-Name: Anish Pokhrel 
+By Anish Pokhrel 
 
 ## Game Overview:
-*Fight Bros* is a two player fighting game made in HTML and CSS. In the next assignment, I will implement functionality to this game making it playable. 
+*Fight Bros* is a two player fighting game made in HTML, CSS, and JavaScript. In the previous version (Part 1) I implemented a basic overview and layout of the game without utilizing any functionality. In this assignment (Part Two), the functionality for the game has been fully implemented.
 
 ### Target Platform
-This game is desgined for desktop.
+This game is desgined for use in desktop.
 
 ### Game Genre
 Strategy fighting, competition, action, multiplayer.
@@ -18,9 +18,9 @@ This game is to be played by two players on the same desktop device. These two p
 Both players begin with maximum health. For each hit on a player, their corresponding health decreases. A player is able to hit the other player by remaining on the ground (ground attack) or hit by jumping (air attack: results in more damage). There is a 30 second time limit. During that time limit either player can win by killing the other. If neither player is able to defeat the other and the time runs out, then winner is decided by the player who has more health. If both players have same health when timer runs out, the fight is declared as a "draw".
 
 ## Assets
-- autumn-landscape-background.jpg is CC0 taken from https://www.freepik.com/free-vector/autumn-landscape-background_1165702.htm#query=game%20background&position=2&from_view=keyword&track=ais
-- dino_transparent.png was designed by myself
-- https://luizmelo.itch.io/martial-hero-3 (CC0)
-- https://www.free-stock-music.com/sound-effects-library-knife-slash.html (CC0 1.0)
-- https://freesound.org/people/MATRIXXX_/sounds/486943/ (CC0)
-- https://freesound.org/people/deleted_user_12367688/sounds/553285/ (CC0)
+- Background and Player Two Image: https://brullov.itch.io/oak-woods (CC0) 
+- Player One Image: https://luizmelo.itch.io/martial-hero-3 (CC0)
+- Sword Slash Audio: https://www.free-stock-music.com/sound-effects-library-knife-slash.html (CC0)
+- Player One Audio: https://freesound.org/people/MATRIXXX_/sounds/486943/ (CC0) 
+- Player Two Audio: https://freesound.org/people/deleted_user_12367688/sounds/553285/ (CC0)
+- Font: https://www.cdnfonts.com/public-pixel.font (CC0)
