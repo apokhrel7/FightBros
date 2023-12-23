@@ -1,8 +1,10 @@
-# Fall 2023 SENG-513-Assignment 2: Fight Bros
+# Fall 2023 SENG-513-Assignment 2: Fight Bros [![Netlify Status](https://api.netlify.com/api/v1/badges/8ec3a7b5-32de-4319-a56c-a636a44cd231/deploy-status)](https://app.netlify.com/sites/anishpokhrel-fightbros/deploys)
 
 By Anish Pokhrel 
 
 ## Game Overview:
+Click here to try: [Fight Bros](https://anishpokhrel-fightbros.netlify.app/)
+
 *Fight Bros* is a two player fighting game made in HTML, CSS, and JavaScript. In the previous version (Part 1) I implemented a basic overview and layout of the game without utilizing any functionality. In this assignment (Part Two), the functionality for the game has been fully implemented.
 
 ### Target Platform
