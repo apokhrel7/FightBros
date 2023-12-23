@@ -1,4 +1,4 @@
-Fight Bros - Two Player Fighting Game [![Netlify Status](https://api.netlify.com/api/v1/badges/8ec3a7b5-32de-4319-a56c-a636a44cd231/deploy-status)](https://app.netlify.com/sites/anishpokhrel-fightbros/deploys)
+Fight Bros - Two Player Fighting Game  [![Netlify Status](https://api.netlify.com/api/v1/badges/8ec3a7b5-32de-4319-a56c-a636a44cd231/deploy-status)](https://app.netlify.com/sites/anishpokhrel-fightbros/deploys)
 
 By Anish Pokhrel 
 
